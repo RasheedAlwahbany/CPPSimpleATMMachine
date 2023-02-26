@@ -18,7 +18,6 @@ INSTRUCTIONS:
 			Savings Account Balance = 600
 */
 
-#include "stdafx.h"
 #include <iostream>
 #include <string>
 
