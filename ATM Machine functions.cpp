@@ -28,7 +28,8 @@ void account(int option);
 using namespace std;
 string AccountType[] = {"", "CHECKINGS", "SAVINGS"};
 string response;
-
+int type;		// account type
+int balance;   // account balance
 int AccountDetails[] = {
 	1234,		// pin number
 	100,		// checking account balance
@@ -54,31 +55,38 @@ bool proceed(string response) {
 	}
 
 }
+		int getBalance() {
+			string confirmBalance;
+			// get the account type, and return balance
+			cout << "Would you like to check your "<< AccountType[type] << " account balance? (y/n)\n" << endl;
+			cin >> confirmBalance;
+			if(confirmBalance=="y" || confirmBalance=="Y"){
+				cout << "Your account balance is: $" << balance << endl;
+			} 
+			
+			cout << "\n\nWould you like to continue (y/n)?\n";
+			cin >> response;
 
-class AccountSettings {
-	private:
-		int type;		// account type
-		int balance;	// account balance
-	public:
-		AccountSettings(int type) {
-			// type 1 = checkings
-			// type 2 = savings
-			this->type = type;
-			this->balance = AccountDetails[this->type];
+			if (proceed(response)) {
+				account(type); // return to account menu
+			}
+
+			return 0;
 		}
-		int getWithdraw() {
+
+int getWithdraw() {
 			int withdrawAmount;
 			cout << "Please enter amount to withdrawn:\n " << endl;
 			cin >> withdrawAmount;
 
 			// get account type
-			if(withdrawAmount <= this->balance){
-				int AccountBalance = this->balance -= withdrawAmount;
+			if(withdrawAmount <= balance){
+				int AccountBalance = balance -= withdrawAmount;
 				cout << "Dispensing... ";
 				cout << "$"<< withdrawAmount << endl;
 				
 				// update the account balance
-				AccountDetails[this->type] = AccountBalance;
+				AccountDetails[type] = AccountBalance;
 				getBalance();
 
 			} else {
@@ -94,10 +102,10 @@ class AccountSettings {
 			cout << "Please enter an amount to deposit:\n" << endl;
 			cin >> depositAmount;
 
-			int AccountBalance = this->balance += depositAmount;
+			int AccountBalance = balance += depositAmount;
 
 			// update the account balance
-			AccountDetails[this->type] = AccountBalance;
+			AccountDetails[type] = AccountBalance;
 
 			cout << "\t$" << depositAmount << " was deposited into your account";
 			getBalance();
@@ -107,21 +115,21 @@ class AccountSettings {
 
 		int getTransfer() {
 			int AmountTransfer;
-			int TransferTo = this->type== 1 ? 2 : 1;
+			int TransferTo = type== 1 ? 2 : 1;
 
-			cout << "Enter amount to transfer to your "<< AccountType[TransferTo] << " account."<< endl;
+			cout << "Enter amount to transfer to your "<< AccountType[TransferTo] << " "<< endl;
 			cin >>  AmountTransfer;
 
-			if(AmountTransfer <= AccountDetails[this->type]) {
+			if(AmountTransfer <= AccountDetails[type]) {
 				// update the current account balance in the selected account
-				int NewBalance = this->balance -= AmountTransfer;
-				AccountDetails[this->type] = NewBalance;
+				int NewBalance = balance -= AmountTransfer;
+				AccountDetails[type] = NewBalance;
 
 				// Set the new transfered amount to transfered account
 				int TransferedAmount = AccountDetails[TransferTo] += AmountTransfer;
 				AccountDetails[TransferTo] = TransferedAmount;
 
-				cout << "$" << AmountTransfer << " has been transfered to your "<< AccountType[TransferTo] << " account." << endl;
+				cout << "$" << AmountTransfer << " has been transfered to your "<< AccountType[TransferTo] << " " << endl;
 				getBalance();
 
 			} else {
@@ -132,25 +140,6 @@ class AccountSettings {
 			return 0;
 		}
 
-		int getBalance() {
-			string confirmBalance;
-			// get the account type, and return balance
-			cout << "Would you like to check your "<< AccountType[this->type] << " account balance? (y/n)\n" << endl;
-			cin >> confirmBalance;
-			if(confirmBalance=="y" || confirmBalance=="Y"){
-				cout << "Your account balance is: $" << this->balance << endl;
-			} 
-			
-			cout << "\n\nWould you like to continue (y/n)?\n";
-			cin >> response;
-
-			if (proceed(response)) {
-				account(this->type); // return to account menu
-			}
-
-			return 0;
-		}
-};
 
 void account(int option) {
 		// account option = 1 (checkings)
@@ -162,23 +151,24 @@ void account(int option) {
 				<<"\n\t5. --Return to Menu." << endl;
 
 		// Pass in account type
-		AccountSettings Account(option); 
+		type = type;
+			balance = AccountDetails[type];
 
 		int selectMenu;
 		cin >> selectMenu;
 		
 		switch(selectMenu){
 			case 1:
-				cout << Account.getBalance();
+				cout << getBalance();
 				break;
 			case 2: 
-				cout << Account.getWithdraw();
+				cout << getWithdraw();
 				break;
 			case 3: 
-				cout << Account.getDeposit();
+				cout << getDeposit();
 				break;
 			case 4:
-				cout << Account.getTransfer();
+				cout << getTransfer();
 				break;
 			case 5:
 				menu(); // return to main menu
