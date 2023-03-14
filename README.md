@@ -20,9 +20,6 @@ Create an account that has the ability to
   4) Make deposits into accounts
   5) Make withdrawals from accounts
 
-AUTHOR:                
- Nadine E. Jerome
-
 INSTRUCTIONS:        
   Enter pin number '1234'
   Checkings Account Balance = 100
