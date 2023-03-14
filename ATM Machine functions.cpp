@@ -10,7 +10,7 @@ TASKS:		Create an account that has the ability to
 				4) Make deposits into accounts
 				5) Make withdrawals from accounts
 
-AUTHOR:		Nadine E. Jerome
+AUTHOR:		Rasheed Adnan Al-Wahbany
 
 INSTRUCTIONS:
 			Enter pin number '1234'
